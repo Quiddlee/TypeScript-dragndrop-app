@@ -1,5 +1,58 @@
-import BindThis from "./decorators";
+// Validation
+interface Validatable {
+    value: string | number;
+    required?: boolean;
+    minLength?: number;
+    maxLength?: number;
+    min?: number;
+    max?: number;
+}
 
+function validate({
+    value,
+    required,
+    minLength,
+    maxLength,
+    min,
+    max,
+}: Validatable) {
+    let isValid = true;
+
+    if (required) {
+        isValid = isValid && value.toString().trim().length !== 0;
+    }
+
+    if (minLength != null && typeof value === 'string') {
+        isValid = isValid && value.length >= minLength;
+    }
+
+    if (maxLength != null && typeof value === 'string') {
+        isValid = isValid && value.length <= maxLength;
+    }
+
+    if (min != null && typeof value === 'number') {
+        isValid = isValid && value >= min;
+    }
+
+    if (max != null && typeof value === 'number') {
+        isValid = isValid && value <= max;
+    }
+
+    return isValid;
+}
+
+// BindThis decorator
+function BindThis (_: any, _2: string, descriptor: PropertyDescriptor) {
+    return {
+        configurable: true,
+        enumerable: false,
+        get() {
+            return descriptor.value.bind(this);
+        }
+    }
+}
+
+// ProjectInput Class
 class ProjectInput {
     templateElement: HTMLTemplateElement;
     hostElement: HTMLDivElement;
@@ -31,8 +84,30 @@ class ProjectInput {
             this.peopleInputElement,
         ]
         .map(input => input.value.trim()); 
-        
-        if (inputs.some(input => input.length === 0)) {
+
+        const titleValidatable: Validatable = {
+            value: inputs[0],
+            required: true,
+        };
+
+        const descriptionValidatable: Validatable = {
+            value: inputs[1],
+            required: true,
+            minLength: 5
+        }; 
+
+        const peopleValidatable: Validatable = {
+            value: +inputs[2],
+            required: true,
+            min: 1,
+            max: 5
+        };
+
+        if ([
+            titleValidatable,
+            descriptionValidatable,
+            peopleValidatable,
+        ].some(input => !validate(input))) {
             return alert('Invalid input, please try again!');
         }
         else {

@@ -3,7 +3,7 @@
 }
 
 html {
-  font-family: sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
 body {
@@ -18,20 +18,38 @@ textarea {
 }
 
 label {
+  display: inline;
   font-weight: bold;
+  background-image: linear-gradient(to right, #CE313D, #FD3A4A);
+  -webkit-background-clip: text;
+  color: transparent;
 }
 
 input,
 textarea {
+  margin: .7rem auto;
   font: inherit;
   padding: 0.2rem 0.4rem;
-  width: 100%;
+  width: 95%;
   max-width: 30rem;
   border: 1px solid #ccc;
+  resize: none;
+  transition: all .3s cubic-bezier(.02,.09,.01,1.1);
+}
+
+input {
+  border-radius: 2px
 }
 
 input:focus,
 textarea:focus {
+  outline: none;
+  background: #fff5f9;
+  width: 100%;
+}
+
+input:hover,
+textarea:hover {
   outline: none;
   background: #fff5f9;
 }
@@ -43,6 +61,7 @@ button {
   cursor: pointer;
   color: white;
   padding: 0.75rem 1rem;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.26);
 }
 
 button:focus {
@@ -61,19 +80,32 @@ button:active {
 }
 
 .projects header {
-  background: #ff0062;
+  background-image: linear-gradient(to right, #FB291B, #B01135);
   height: 3.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+#active-projects {
+  display: block;
+  min-height: 7rem;
+  width: 60vw;
+  margin: 3rem auto;
+  border-radius: 6px;
+}
+
 #finished-projects {
+  display: block;
   border-color: #0044ff;
+  min-height: 7rem;
+  width: 60vw;
+  margin: 3rem auto;
+  border-radius: 6px;
 }
 
 #finished-projects header {
-  background: #0044ff;
+  background-image: linear-gradient(to right, #7879FF, #1F1FFF);
 }
 
 .projects h2 {
@@ -82,9 +114,12 @@ button:active {
 }
 
 .projects ul {
+  display: block;
+  min-height: inherit;
   list-style: none;
   margin: 0;
   padding: 1rem;
+  transition: all .7s;
 }
 
 .projects li {
@@ -121,8 +156,35 @@ button:active {
 }
 
 #user-input {
-  margin: 1rem;
+  display: block;
+  width: 40vw;
+  margin: 1rem auto;
   padding: 1rem;
   border: 1px solid #ff0062;
-  background: #f7f7f7;
+  background-image: linear-gradient(to right bottom, #f7f7f7, #f7f7f7);
+  border-radius: 6px;
+}
+
+#user-input button {
+  display: block;
+  margin: 0 auto;
+  border-radius: 3px;
+  margin-top: 1.2rem;
+  transition: all .2s;
+}
+
+#user-input button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.26);
+}
+
+#user-input button:active {
+  transform: translateY(0px);
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.26);
+}
+
+.form-control {
+  display: block;
+  margin: 0 auto;
+  width: 70%;
 }

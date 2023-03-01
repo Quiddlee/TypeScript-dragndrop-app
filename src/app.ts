@@ -223,7 +223,7 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> implements Drag
     @BindThis
     dragLeaveHandler(_: DragEvent): void {
         const listEl = this.element.querySelector('ul')!;
-        listEl.classList.add('droppable');
+        listEl.classList.remove('droppable');
     }
 
     @BindThis

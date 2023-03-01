@@ -56,7 +56,21 @@ class ProjectState extends State<Project> {
         ProjectStatus.Active
         )
         this.projects.push(newProject);
-        this.listeners.forEach(func => func([...this.projects]));
+        this.updateListenesrs();
+    }
+
+    moveProject(projectId: string, newStatus: ProjectStatus) {
+        const project = this.projects.find(prj => prj.id === projectId);
+        if (project && project.status !== newStatus) {
+            project.status = newStatus;
+            this.updateListenesrs();
+        }
+    }
+
+    private updateListenesrs() {
+        this.listeners.forEach(listenerFn => {
+            listenerFn([...this.projects]);
+        });
     }
 }
 const projectState = ProjectState.getInstance();
@@ -174,13 +188,12 @@ class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> implements 
 
     @BindThis
     dragStartHandler(event: DragEvent): void {
-        console.log(event);
-        
+        event.dataTransfer!.setData('text/plain', this.project.id);
+        event.dataTransfer!.effectAllowed = 'move';
     }
 
     dragEndHandler(_: DragEvent): void {
         console.log('DragEnd');
-        
     }
 
     protected configure(): void {
@@ -213,14 +226,22 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> implements Drag
         listEl.classList.add('droppable');
     }
 
-    dropHandler(_: DragEvent): void {
-        
+    @BindThis
+    dropHandler(event: DragEvent): void {
+        const prjId = event.dataTransfer!.getData('text/plain');
+        projectState.moveProject(
+            prjId,
+            this.type === 'active' ? ProjectStatus.Active : ProjectStatus.Finished
+        );
     }
 
     @BindThis
-    dragOverHandler(_: DragEvent): void {
-        const listEl = this.element.querySelector('ul')!;
-        listEl.classList.remove('droppable'); 
+    dragOverHandler(event: DragEvent): void {
+        if (event.dataTransfer && event.dataTransfer.types[0] === 'text/plain') {
+            event.preventDefault();
+            const listEl = this.element.querySelector('ul')!;
+            listEl.classList.add('droppable'); 
+        }
     }
 
     protected configure(): void {

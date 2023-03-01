@@ -21,6 +21,7 @@ label {
   display: inline;
   font-weight: bold;
   background-image: linear-gradient(to right, #CE313D, #FD3A4A);
+  background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
 }

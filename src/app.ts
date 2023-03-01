@@ -138,6 +138,37 @@ abstract class Component<T extends HTMLElement, U extends HTMLElement> {
     protected abstract renderContent(): void;
 }
 
+
+// ProjectItem class
+class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> {
+    private project: Project;
+
+    get persons() {
+        if (this.project.people === 1) {
+            return '1 person';
+        }
+        else {
+            return `${this.project.people} persons`;
+        }
+    }
+
+    constructor(hostId: string, project: Project) {
+        super('single-project', hostId, false, project.id);
+        this.project = project;
+
+        this.configure();
+        this.renderContent();
+    }
+
+    protected configure(): void {}
+
+    protected renderContent(): void {
+        this.element.querySelector('h2')!.textContent = this.project.title;
+        this.element.querySelector('h3')!.textContent = `${this.persons} assigned.`;
+        this.element.querySelector('p')!.textContent = this.project.description;
+    }
+}
+
 // ProjectList Class
 class ProjectList extends Component<HTMLDivElement, HTMLElement> {
     assignedProjects: Project[];
@@ -170,9 +201,7 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> {
         const listEl = document.querySelector(`#${this.type}-projects-list`) as HTMLUListElement;
         listEl.innerHTML = '';
         this.assignedProjects.forEach(project => {
-            const listItem = document.createElement('li');
-            listItem.textContent = project.title;
-            listEl.appendChild(listItem);
+            new ProjectItem(this.element.querySelector('ul')!.id, project);
         });
     }
 
@@ -180,13 +209,6 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> {
         const listId = `${this.type}-projects-list`;
         this.element.querySelector('ul')!.id = listId;
         this.element.querySelector('h2')!.textContent = `${this.type.toUpperCase()} PROJECTS`;
-    }
-}
-
-// ProjectItem class
-class ProjectItem extends Component {
-    constructor() {
-        super();
     }
 }
 

@@ -19,12 +19,25 @@ export class ProjectList extends Component<HTMLDivElement, HTMLElement> implemen
 
     @BindThis
     dragLeaveHandler(_: DragEvent): void {
+        (document.querySelector(
+            '#finished-projects'
+        )! as HTMLDivElement)
+        .style.minHeight = '';
+
+        (document.querySelector(
+            '#active-projects'
+        )! as HTMLDivElement)
+        .style.minHeight = '';
+
         const listEl = this.element.querySelector('ul')!;
         listEl.classList.remove('droppable');
     }
 
     @BindThis
     dropHandler(event: DragEvent): void {
+        const listEl = this.element.querySelector('ul')!;
+        listEl.classList.remove('droppable');
+
         const prjId = event.dataTransfer!.getData('text/plain');
         projectState.moveProject(
             prjId,
@@ -34,6 +47,21 @@ export class ProjectList extends Component<HTMLDivElement, HTMLElement> implemen
 
     @BindThis
     dragOverHandler(event: DragEvent): void {
+        const target = event.target as HTMLDivElement;
+        if (target && target.id === 'finished-projects-list') {
+            (document.querySelector(
+                '#finished-projects'
+            )! as HTMLDivElement)
+            .style.minHeight = '13rem';
+        }
+
+        if (target && target.id === 'active-projects-list') {
+            (document.querySelector(
+                '#active-projects'
+            )! as HTMLDivElement)
+            .style.minHeight = '13rem';
+        }
+
         if (event.dataTransfer && event.dataTransfer.types[0] === 'text/plain') {
             event.preventDefault();
             const listEl = this.element.querySelector('ul')!;
@@ -67,6 +95,7 @@ export class ProjectList extends Component<HTMLDivElement, HTMLElement> implemen
         this.assignedProjects.forEach(project => {
             new ProjectItem(this.element.querySelector('ul')!.id, project);
         });
+        this.element.style.minHeight = `${+this.element.style.minHeight.replace(/rem/, '') + 2}rem`;
     }
 
     protected renderContent() {

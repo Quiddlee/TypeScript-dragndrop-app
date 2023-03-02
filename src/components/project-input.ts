@@ -24,7 +24,7 @@ export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
             this.descriptionInputElement,
             this.peopleInputElement,
         ]
-            .map(input => input.value.trim());
+        .map(input => input.value.trim());
 
         const titleValidatable: Validation.Validatable = {
             value: inputs[0],

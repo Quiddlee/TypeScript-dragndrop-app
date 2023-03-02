@@ -81,7 +81,7 @@ button:active {
 }
 
 .projects header {
-  background-image: linear-gradient(to right, #FB291B, #B01135);
+  background-image: linear-gradient(to right, #ff0062, #e61968);
   height: 3.5rem;
   display: flex;
   justify-content: center;
@@ -94,6 +94,7 @@ button:active {
   width: 60vw;
   margin: 3rem auto;
   border-radius: 6px;
+  transition: all .5s cubic-bezier(.02,.09,.01,1.1);
 }
 
 #finished-projects {
@@ -103,6 +104,7 @@ button:active {
   width: 60vw;
   margin: 3rem auto;
   border-radius: 6px;
+  transition: all .5s cubic-bezier(.02,.09,.01,1.1);
 }
 
 #finished-projects header {
@@ -120,7 +122,6 @@ button:active {
   list-style: none;
   margin: 0;
   padding: 1rem;
-  transition: all .7s;
 }
 
 .projects li {
@@ -158,7 +159,7 @@ button:active {
 
 #user-input {
   display: block;
-  width: 40vw;
+  width: 35vw;
   margin: 1rem auto;
   padding: 1rem;
   border: 1px solid #ff0062;
